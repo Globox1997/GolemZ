@@ -1,0 +1,22 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "fef",
+        "ddd",
+        "fdf"
+    ],
+    "key": {
+        "d": {
+            "item": "minecraft:iron_block"
+        },
+        "e": {
+            "item": "minecraft:carved_pumpkin"
+        },
+        "f": {
+            "item": "minecraft:diamond"
+        }
+    },
+    "result": {
+        "item": "golem:spawn_goli"
+    }
+}

@@ -1,0 +1,37 @@
+{
+    "ambi": {
+      "sounds": [
+        "golem:ambi1",
+        "golem:ambi2",
+        "golem:ambi3",
+        "golem:ambi4",
+        "golem:ambi5"
+      ]
+    },
+    "hit": {
+      "sounds": [
+        "golem:hit1",
+        "golem:hit2",
+        "golem:hit3",
+        "golem:hit4"
+      ]
+    },
+    "walk": {
+        "sounds": [
+          "golem:walk1",
+          "golem:walk2",
+          "golem:walk3",
+          "golem:walk4"
+        ]
+      },
+      "death": {
+        "sounds": [
+          "golem:death"
+        ]
+      },
+      "rep": {
+        "sounds": [
+          "golem:rep"
+        ]
+      }
+}
