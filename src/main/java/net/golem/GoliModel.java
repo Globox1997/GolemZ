@@ -18,8 +18,8 @@ public class GoliModel<T extends Goli> extends CompositeEntityModel<T> {
    public GoliModel() {
       this.head = (new ModelPart(this)).setTextureSize(128, 128);
       this.head.setPivot(0.0F, -7.0F, -2.0F);
-      this.head.setTextureOffset(0, 0).addCuboid(-4.0F, -12.0F, -5.5F, 8.0F, 10.0F, 8.0F, 0.0F);
-      this.head.setTextureOffset(24, 0).addCuboid(-1.0F, -5.0F, -7.5F, 2.0F, 4.0F, 2.0F, 0.0F);
+      this.head.setTextureOffset(0, 0).addCuboid(-4.0F, -12.5F, -5.5F, 8.0F, 10.0F, 8.0F, 1.0F);
+      this.head.setTextureOffset(24, 0).addCuboid(-1.0F, -5.0F, -7.5F, 2.0F, 4.0F, 2.0F, 0.3F);
       this.torso = (new ModelPart(this)).setTextureSize(128, 128);
       this.torso.setPivot(0.0F, -7.0F, 0.0F);
       this.torso.setTextureOffset(0, 40).addCuboid(-9.0F, -2.0F, -6.0F, 18.0F, 12.0F, 11.0F, 0.0F);

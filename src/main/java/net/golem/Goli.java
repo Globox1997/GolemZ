@@ -53,6 +53,8 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
+import net.minecraft.entity.passive.WolfEntity;
+
 public class Goli extends TameableEntity {
     private static final TrackedData<Boolean> BEGGING;
     private static final TrackedData<Integer> COLLAR_COLOR;
@@ -70,23 +72,24 @@ public class Goli extends TameableEntity {
         this.setTamed(false);
     }
 
+    @Override
     protected void initGoals() {
         this.goalSelector.add(1, new SwimGoal(this));
         this.goalSelector.add(2, new SitGoal(this));
-        this.goalSelector.add(3, new Goli.AvoidLlamaGoal(this, LlamaEntity.class, 24.0F, 1.5D, 1.5D));
-        this.goalSelector.add(4, new PounceAtTargetGoal(this, 0.4F));
-        this.goalSelector.add(5, new MeleeAttackGoal(this, 1.0D, true));
-        this.goalSelector.add(6, new FollowOwnerGoal(this, 1.0D, 10.0F, 2.0F, false));
-        this.goalSelector.add(7, new AnimalMateGoal(this, 1.0D));
-        this.goalSelector.add(8, new WanderAroundFarGoal(this, 1.0D));
-        this.goalSelector.add(10, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
-        this.goalSelector.add(10, new LookAroundGoal(this));
+        this.goalSelector.add(3, new PounceAtTargetGoal(this, 0.2F));
+        this.goalSelector.add(4, new MeleeAttackGoal(this, 1.0D, false));
+        this.goalSelector.add(5, new FollowOwnerGoal(this, 1.0D, 10.0F, 3.0F, true));
+        this.goalSelector.add(6, new AnimalMateGoal(this, 1.0D));
+        this.goalSelector.add(7, new WanderAroundFarGoal(this, 1.0D));
+        this.goalSelector.add(8, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
+        this.goalSelector.add(8, new LookAroundGoal(this));
         this.targetSelector.add(1, new TrackOwnerAttackerGoal(this));
         this.targetSelector.add(2, new AttackWithOwnerGoal(this));
         this.targetSelector.add(3, (new RevengeGoal(this, new Class[0])).setGroupRevenge());
-        this.targetSelector.add(5, new FollowTargetGoal(this, AbstractSkeletonEntity.class, false));
+        this.targetSelector.add(4, new FollowTargetGoal<>(this, AbstractSkeletonEntity.class, false));
     }
 
+    @Override
     protected void initAttributes() {
         super.initAttributes();
         this.getAttributeInstance(EntityAttributes.MOVEMENT_SPEED).setBaseValue(0.26D);
@@ -100,6 +103,7 @@ public class Goli extends TameableEntity {
         this.getAttributeInstance(EntityAttributes.KNOCKBACK_RESISTANCE).setBaseValue(2.0D);
     }
 
+    @Override
     protected SoundEvent getAmbientSound() {
         if (this.isTamed()) {
             if (this.isInLove()) {
@@ -112,6 +116,7 @@ public class Goli extends TameableEntity {
         }
     }
 
+    @Override
     public void setTarget(@Nullable LivingEntity target) {
         super.setTarget(target);
         if (target == null) {
@@ -122,22 +127,26 @@ public class Goli extends TameableEntity {
 
     }
 
+    @Override
     protected void initDataTracker() {
         super.initDataTracker();
         this.dataTracker.startTracking(BEGGING, false);
         this.dataTracker.startTracking(COLLAR_COLOR, DyeColor.RED.getId());
     }
 
+    @Override
     protected void playStepSound(BlockPos blockPos_1, BlockState blockState_1) {
         this.playSound(lemo.WALKEVENT, 0.15F, 1.0F);
     }
 
+    @Override
     public void writeCustomDataToTag(CompoundTag tag) {
         super.writeCustomDataToTag(tag);
         tag.putBoolean("Angry", this.isAngry());
         tag.putByte("CollarColor", (byte) this.getCollarColor().getId());
     }
 
+    @Override
     public void readCustomDataFromTag(CompoundTag tag) {
         super.readCustomDataFromTag(tag);
         this.setAngry(tag.getBoolean("Angry"));
@@ -147,18 +156,22 @@ public class Goli extends TameableEntity {
 
     }
 
+    @Override
     protected SoundEvent getHurtSound(DamageSource damageSource_1) {
         return lemo.HITEVENT;
     }
 
+    @Override
     protected SoundEvent getDeathSound() {
         return lemo.DEATHEVENT;
     }
 
+    @Override
     protected float getSoundVolume() {
         return 0.4F;
     }
 
+    @Override
     public void tickMovement() {
         super.tickMovement();
         if (!this.world.isClient && this.furWet && !this.canShakeWaterOff && !this.isNavigating() && this.onGround) {
@@ -174,6 +187,7 @@ public class Goli extends TameableEntity {
 
     }
 
+    @Override
     public void tick() {
         super.tick();
         if (this.isAlive()) {
@@ -221,6 +235,7 @@ public class Goli extends TameableEntity {
         }
     }
 
+    @Override
     public void onDeath(DamageSource source) {
         this.furWet = false;
         this.canShakeWaterOff = false;
@@ -229,11 +244,6 @@ public class Goli extends TameableEntity {
         super.onDeath(source);
     }
 
-    /**
-     * Returns whether this wolf's fur is wet.
-     * <p>
-     * The wolf's fur will remain wet until the wolf shakes.
-     */
     @Environment(EnvType.CLIENT)
     public boolean isFurWet() {
         return false;
@@ -275,14 +285,17 @@ public class Goli extends TameableEntity {
                 * 3.1415927F;
     }
 
+    @Override
     protected float getActiveEyeHeight(EntityPose pose, EntityDimensions dimensions) {
         return dimensions.height * 0.8F;
     }
 
+    @Override
     public int getLookPitchSpeed() {
         return this.isSitting() ? 20 : super.getLookPitchSpeed();
     }
 
+    @Override
     public boolean damage(DamageSource source, float amount) {
         if (this.isInvulnerableTo(source)) {
             return false;
@@ -297,6 +310,7 @@ public class Goli extends TameableEntity {
         }
     }
 
+    @Override
     public boolean tryAttack(Entity target) {
         boolean bl = target.damage(DamageSource.mob(this),
                 (float) ((int) this.getAttributeInstance(EntityAttributes.ATTACK_DAMAGE).getValue()));
@@ -307,6 +321,7 @@ public class Goli extends TameableEntity {
         return bl;
     }
 
+    @Override
     public void setTamed(boolean tamed) {
         super.setTamed(tamed);
         if (tamed) {
@@ -319,6 +334,7 @@ public class Goli extends TameableEntity {
         this.getAttributeInstance(EntityAttributes.ATTACK_DAMAGE).setBaseValue(6.0D);
     }
 
+    @Override
     public boolean interactMob(PlayerEntity player, Hand hand) {
         ItemStack itemStack = player.getStackInHand(hand);
         Item item = itemStack.getItem();
@@ -402,10 +418,12 @@ public class Goli extends TameableEntity {
         }
     }
 
+    @Override
     public boolean isBreedingItem(ItemStack stack) {
         return false;
     }
 
+    @Override
     public int getLimitPerChunk() {
         return 1;
     }
@@ -436,6 +454,7 @@ public class Goli extends TameableEntity {
         this.dataTracker.set(BEGGING, begging);
     }
 
+    @Override
     public boolean canBreedWith(AnimalEntity other) {
         return false;
     }
@@ -444,6 +463,7 @@ public class Goli extends TameableEntity {
         return (Boolean) this.dataTracker.get(BEGGING);
     }
 
+    @Override
     public boolean canAttackWithOwner(LivingEntity target, LivingEntity owner) {
         if (!(target instanceof CreeperEntity) && !(target instanceof GhastEntity)) {
             if (target instanceof Goli) {
@@ -462,6 +482,7 @@ public class Goli extends TameableEntity {
         }
     }
 
+    @Override
     public boolean canBeLeashedBy(PlayerEntity player) {
         return !this.isAngry() && super.canBeLeashedBy(player);
     }
