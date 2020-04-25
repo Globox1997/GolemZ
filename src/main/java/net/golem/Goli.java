@@ -78,11 +78,11 @@ public class Goli extends TameableEntity {
         this.goalSelector.add(2, new SitGoal(this));
         this.goalSelector.add(3, new PounceAtTargetGoal(this, 0.2F));
         this.goalSelector.add(4, new MeleeAttackGoal(this, 1.0D, false));
-        this.goalSelector.add(5, new FollowOwnerGoal(this, 1.0D, 10.0F, 3.0F, true));
+        this.goalSelector.add(5, new FollowOwnerGoal(this, 1.0D, 11.0F, 3.0F, true));
         this.goalSelector.add(6, new AnimalMateGoal(this, 1.0D));
-        this.goalSelector.add(7, new WanderAroundFarGoal(this, 1.0D));
-        this.goalSelector.add(8, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
-        this.goalSelector.add(8, new LookAroundGoal(this));
+        this.goalSelector.add(9, new WanderAroundFarGoal(this, 1.0D));
+        this.goalSelector.add(10, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
+        this.goalSelector.add(10, new LookAroundGoal(this));
         this.targetSelector.add(1, new TrackOwnerAttackerGoal(this));
         this.targetSelector.add(2, new AttackWithOwnerGoal(this));
         this.targetSelector.add(3, (new RevengeGoal(this, new Class[0])).setGroupRevenge());
@@ -460,7 +460,7 @@ public class Goli extends TameableEntity {
     }
 
     public boolean isBegging() {
-        return (Boolean) this.dataTracker.get(BEGGING);
+        return false;
     }
 
     @Override
