@@ -8,10 +8,6 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.util.math.Vector3f;
 import net.minecraft.util.Identifier;
 
-import net.minecraft.client.render.entity.IronGolemEntityRenderer;
-import net.minecraft.client.render.entity.model.IronGolemEntityModel;
-import net.minecraft.entity.passive.IronGolemEntity;
-
 @Environment(EnvType.CLIENT)
 public class GoliRenderer extends MobEntityRenderer<Goli, GoliModel<Goli>> {
     private static final Identifier SKIN = new Identifier("golem:textures/entity/goli.png");

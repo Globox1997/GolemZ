@@ -39,10 +39,12 @@ public class GoliModel<T extends Goli> extends CompositeEntityModel<T> {
       this.leftLeg.addCuboid(-3.5F, -3.0F, -3.0F, 6.0F, 16.0F, 5.0F, 0.0F);
    }
 
+   @Override
    public Iterable<ModelPart> getParts() {
       return ImmutableList.of(this.head, this.torso, this.rightLeg, this.leftLeg, this.rightArm, this.leftArm);
    }
 
+   @Override
    public void setAngles(T ironGolemEntity, float f, float g, float h, float i, float j) {
       this.head.yaw = i * 0.017453292F;
       this.head.pitch = j * 0.017453292F;
@@ -50,8 +52,13 @@ public class GoliModel<T extends Goli> extends CompositeEntityModel<T> {
       this.leftLeg.pitch = 1.5F * this.method_2810(f, 13.0F) * g;
       this.rightLeg.yaw = 0.0F;
       this.leftLeg.yaw = 0.0F;
+      if (ironGolemEntity.isSitting()) {
+         this.rightArm.pitch = 0.1F;
+         this.leftArm.pitch = -0.1F;
+      }
    }
 
+   @Override
    public void animateModel(T ironGolemEntity, float f, float g, float h) {
       int i = ((Goli) ironGolemEntity).getAttackTicksLeft();
       if (i > 0) {
@@ -61,11 +68,7 @@ public class GoliModel<T extends Goli> extends CompositeEntityModel<T> {
          this.rightArm.pitch = (-0.2F + 1.5F * this.method_2810(f, 13.0F)) * g;
          this.leftArm.pitch = (-0.2F - 1.5F * this.method_2810(f, 13.0F)) * g;
       }
-
-      if (ironGolemEntity.isSitting()) {
-         this.rightArm.pitch = 0.1F;
-         this.leftArm.pitch = -0.1F;
-      } else {
+      if (!ironGolemEntity.isSitting()) {
          this.rightArm.pitch = (-0.2F + 1.5F * this.method_2810(f, 13.0F)) * g;
          this.leftArm.pitch = (-0.2F - 1.5F * this.method_2810(f, 13.0F)) * g;
       }
@@ -75,7 +78,4 @@ public class GoliModel<T extends Goli> extends CompositeEntityModel<T> {
       return (Math.abs(f % g - g * 0.5F) - g * 0.25F) / (g * 0.25F);
    }
 
-   public ModelPart getRightArm() {
-      return this.rightArm;
-   }
 }

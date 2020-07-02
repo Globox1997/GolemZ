@@ -1,10 +1,11 @@
 package net.golem;
 
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.entity.FabricEntityTypeBuilder;
-import net.minecraft.entity.EntityCategory;
+import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
+import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.SpawnGroup;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.SpawnEggItem;
@@ -14,8 +15,8 @@ import net.minecraft.util.registry.Registry;
 
 public class lemo implements ModInitializer {
 
-        public static final EntityType<Goli> GOLI = FabricEntityTypeBuilder.create(EntityCategory.AMBIENT, Goli::new)
-                        .size(EntityDimensions.fixed(0.45F, 1.08F)).build();
+        public static final EntityType<Goli> GOLI = FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, Goli::new)
+                        .trackable(74, 2).dimensions(EntityDimensions.fixed(0.45F, 1.08F)).build();
 
         public static final Identifier AMBI = new Identifier("golem:ambi");
         public static SoundEvent AMBIEVENT = new SoundEvent(AMBI);
@@ -36,8 +37,9 @@ public class lemo implements ModInitializer {
                 Registry.register(Registry.SOUND_EVENT, lemo.WALK, WALKEVENT);
                 Registry.register(Registry.SOUND_EVENT, lemo.DEATH, DEATHEVENT);
                 Registry.register(Registry.SOUND_EVENT, lemo.REP, REPEVENT);
-                Registry.register(Registry.ITEM, new Identifier("golem", "spawn_goli"), new SpawnEggItem(GOLI, 10198167,
-                                6329475, new Item.Settings().maxCount(1).group(ItemGroup.MISC)));
+                Registry.register(Registry.ITEM, new Identifier("golem", "spawn_goli"),
+                                new SpawnEggItem(GOLI, 10198167, 6329475, new Item.Settings().group(ItemGroup.MISC)));
+                FabricDefaultAttributeRegistry.register(GOLI, Goli.createGoliAttributes());
 
         }
 }
