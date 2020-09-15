@@ -39,6 +39,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
@@ -323,14 +324,14 @@ public class Goli extends TameableEntity {
         };
     }
 
-    @Override
-    public PassiveEntity createChild(PassiveEntity mate) {
-        return mate;
-    }
-
     @Environment(EnvType.CLIENT)
     public int getAttackTicksLeft() {
         return this.attackTicksLeft;
+    }
+
+    @Override
+    public PassiveEntity createChild(ServerWorld arg0, PassiveEntity arg1) {
+        return arg1;
     }
 
 }

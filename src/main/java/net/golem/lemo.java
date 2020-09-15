@@ -16,7 +16,7 @@ import net.minecraft.util.registry.Registry;
 public class lemo implements ModInitializer {
 
         public static final EntityType<Goli> GOLI = FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, Goli::new)
-                        .trackable(74, 2).dimensions(EntityDimensions.fixed(0.45F, 1.08F)).build();
+                        .trackRangeBlocks(74).dimensions(EntityDimensions.fixed(0.45F, 1.08F)).build();
 
         public static final Identifier AMBI = new Identifier("golem:ambi");
         public static SoundEvent AMBIEVENT = new SoundEvent(AMBI);
